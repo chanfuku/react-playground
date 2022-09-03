@@ -9,7 +9,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { queryOptions } from '../constant';
+import { queryOptions } from '../../lib/constant';
 
 const queryClient = new QueryClient()
 
