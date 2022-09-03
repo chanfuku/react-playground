@@ -35,7 +35,7 @@ function Example() {
     queryOptions,
   )
 
-  const pageHandler = (page) => {
+  const handleNextPrev = (page) => {
     // page数をkeepする。詳細から戻ってきた時に同じpage数を表示したいので。
     queryClient.setQueryData(['page'], page)
     setPage(page)
@@ -60,7 +60,8 @@ function Example() {
       <div>
         このページは<a href="https://react-query-v3.tanstack.com/" target="_blank">React Query</a>を使っています。この例では、
         <ul>
-          <li>各ページのデータ(APIレスポンス)はReact Queryでキャッシュされます。そのため、前のページに移動する際は、キャッシュから取得したデータを瞬時に表示し、一度目にフェッチしてから30秒以上経過していた場合は、バックグラウンドで再フェッチを行い、フレッシュなデータに差し替わります。</li>
+          <li>各ページのデータ(APIレスポンス)はReact Queryでキャッシュされます。
+            そのため、前のページに移動する際は、キャッシュから取得したデータを瞬時に表示します。同時に、一度目にフェッチしてから30秒以上経過していた場合は、バックグラウンドで再フェッチを行いフレッシュなデータに差し替えてキャッシュに保存します。</li>
           <li>各ページを表示時に、次のページのデータもフェッチします。そのため、次のページを表示する際はキャッシュから取得したデータを瞬時に表示することができます。</li>
           <li>リロードするとキャッシュは削除されます。</li>
         </ul>
@@ -84,15 +85,13 @@ function Example() {
       )}
       <div>Current Page: {page}</div>
       <button
-        onClick={() => pageHandler(Math.max(page - 1, 0))}
+        onClick={() => handleNextPrev(Math.max(page - 1, 0))}
         disabled={page === 0}
       >
         Previous Page
       </button>{' '}
       <button
-        onClick={() => {
-          pageHandler(data?.hasMore ? page + 1 : page)
-        }}
+        onClick={() => handleNextPrev(data?.hasMore ? page + 1 : page)}
         disabled={isPreviousData || !data?.hasMore}
       >
         Next Page
